@@ -1,0 +1,132 @@
+usuarios = []
+ultimo_id = 0
+
+def crear_usuario():
+    global ultimo_id
+    print("\nCreando nuevo usuario:")
+    nombre = input("Nombre: ")
+    edad = int(input("Edad: "))
+    correo = input("Correo electrónico: ")
+    telefono = input("Teléfono: ")
+    nota = float(input("Nota: "))
+    ultimo_id += 1
+    usuario = {
+        "id": ultimo_id,
+        "nombre": nombre,
+        "edad": edad,
+        "correo": correo,
+        "telefono": telefono,
+        "nota": nota
+    }
+    usuarios.append(usuario)
+    print(f"\nUsuario '{nombre}' creado con ID: {ultimo_id}")
+
+def consultar_usuario(consulta, tipo='id'):
+    encontrados = []
+    for usuario in usuarios:
+        if tipo == 'id':
+            if usuario['id'] == consulta:
+                encontrados.append(usuario)
+                break # Suponemos que el ID es único
+        elif tipo == 'nombre':
+            if consulta.lower() in usuario['nombre'].lower():
+                encontrados.append(usuario)
+
+    if encontrados:
+        print("\nUsuario(s) encontrado(s):")
+        for usuario in encontrados:
+            imprimir_usuario(usuario)
+    else:
+        print("\nNo se encontraron usuarios con ese criterio.")
+
+def imprimir_usuario(usuario):
+    print("-" * 20)
+    for clave, valor in usuario.items():
+        print(f"{clave.capitalize()}: {valor}")
+    print("-" * 20)
+
+def consultar_lista_usuarios():
+    if usuarios:
+        print("\nLista de usuarios:")
+        for usuario in usuarios:
+            imprimir_usuario(usuario)
+    else:
+        print("\nNo hay usuarios registrados.")
+
+def eliminar_usuario():
+    id_eliminar = int(input("Ingrese el ID del usuario a eliminar: "))
+    indice_eliminar = -1
+    for i, usuario in enumerate(usuarios):
+        if usuario['id'] == id_eliminar:
+            indice_eliminar = i
+            break
+
+    if indice_eliminar != -1:
+        usuario_eliminado = usuarios.pop(indice_eliminar)
+        print(f"\nUsuario '{usuario_eliminado['nombre']}' con ID {id_eliminar} eliminado.")
+    else:
+        print("\nNo se encontró ningún usuario con ese ID.")
+
+def modificar_usuario():
+    id_modificar = int(input("Ingrese el ID del usuario a modificar: "))
+    for usuario in usuarios:
+        if usuario['id'] == id_modificar:
+            print("\nIngrese los nuevos datos (deje en blanco para mantener el valor actual):")
+            nombre = input(f"Nuevo nombre ({usuario['nombre']}): ") or usuario['nombre']
+            edad_str = input(f"Nueva edad ({usuario['edad']}): ")
+            edad = int(edad_str) if edad_str else usuario['edad']
+            correo = input(f"Nuevo correo ({usuario['correo']}): ") or usuario['correo']
+            telefono = input(f"Nuevo teléfono ({usuario['telefono']}): ") or usuario['telefono']
+            nota_str = input(f"Nueva nota ({usuario['nota']}): ")
+            nota = float(nota_str) if nota_str else usuario['nota']
+
+            usuario['nombre'] = nombre
+            usuario['edad'] = edad
+            usuario['correo'] = correo
+            usuario['telefono'] = telefono
+            usuario['nota'] = nota
+            print(f"\nUsuario con ID {id_modificar} modificado.")
+            return
+
+    print("\nNo se encontró ningún usuario con ese ID.")
+
+def mostrar_menu():
+    print("\033[94m" + "=" * 30 + "\033[0m")
+    print("\033[94m" + "     GESTIÓN DE USUARIOS     " + "\033[0m")
+    print("\033[94m" + "=" * 30 + "\033[0m")
+    print("1. Crear usuario")
+    print("2. Consultar usuario por ID")
+    print("3. Consultar usuario por nombre")
+    print("4. Consultar lista de usuarios")
+    print("5. Eliminar usuario")
+    print("6. Modificar usuario")
+    print("7. Salir")
+    print("Seleccione una opción:")
+
+while True:
+    mostrar_menu()
+    opcion = input()
+
+    match opcion:
+        case '1':
+            crear_usuario()
+        case '2':
+            try:
+                id_consulta = int(input("Ingrese el ID del usuario a consultar: "))
+                consultar_usuario(id_consulta, 'id')
+            except ValueError:
+                print("Por favor, ingrese un ID válido.")
+        case '3':
+            nombre_consulta = input("Ingrese el nombre del usuario a consultar: ")
+            consultar_usuario(nombre_consulta, 'nombre')
+        case '4':
+            consultar_lista_usuarios()
+        case '5':
+            eliminar_usuario()
+        case '6':
+            modificar_usuario()
+        case '7':
+            print("Saliendo del programa.")
+            break
+        case _:
+            print("Opción inválida. Por favor, intente de nuevo.")

@@ -1,4 +1,3 @@
-
 inventario = {}
 
 def product_5(inventario_local):
@@ -7,7 +6,7 @@ def product_5(inventario_local):
     count3 = 1
     print("\n\033[94m\033[1m---Añadir 5 productos iniciales para continuar la gestion del inventario----\033[0m")
     while count :
-        nombre = input(f"\n\033[1mIngrese el nombre del producto ({count3}): ").strip()
+        nombre = input(f"\n\033[1mIngrese el nombre del producto # {count3}: ").strip()
         if nombre in inventario_local:
          print(f"\n\033[93m El producto '{nombre}' ya existe\033[0m")
 
@@ -41,7 +40,6 @@ def product_5(inventario_local):
         if count2 == 5:
          count=False
         
-
 def agregar_producto(inventario_local):
     print("\n\033[94m\033[1mAñadir Producto\033[0m")
     nombre = input("\n\033[1mIngrese el nombre del producto: ").strip()
@@ -91,7 +89,6 @@ def consultar_producto(inventario_local):
     else:
         print(f"\033[93m El producto '{nombre}' no se encuentra en el inventario.\033[0m")
     
-
 def actualizar_precio(inventario_local):
     print("\n\033[94m\033[1mActualizar Precio\033[0m")
     nombre = input("\n\033[1mIngrese el nombre del producto cuyo precio quiere actualizar: ").strip()
@@ -110,7 +107,6 @@ def actualizar_precio(inventario_local):
                 print("\n\033[93mPor favor, ingrese un numero valido para el precio.\033[0m")
     else:
         print(f"\n\033[93m El producto '{nombre}' no se encuentra en el inventario.\033[0m")
-
 
 def eliminar_producto(inventario_local):
     print("\n\033[94m\033[1mEliminar Producto\033[0m")
